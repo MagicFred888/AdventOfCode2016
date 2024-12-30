@@ -4,9 +4,19 @@ namespace AdventOfCode2016.Extensions;
 
 public static class PointExtensions
 {
-    public static long ManhattanDistanve(this Point point, Point target)
+    public static long ManhattanDistance(this Point point)
+    {
+        return Math.Abs(point.X) + Math.Abs(point.Y);
+    }
+
+    public static long ManhattanDistance(this Point point, Point target)
     {
         return Math.Abs(point.X - target.X) + Math.Abs(point.Y - target.Y);
+    }
+
+    public static Point RotateClockwise(this Point point)
+    {
+        return point.RotateClockwise(new Point(0, 0));
     }
 
     public static Point RotateClockwise(this Point point, Point centerPoint)
@@ -14,6 +24,11 @@ public static class PointExtensions
         int x = point.X - centerPoint.X;
         int y = point.Y - centerPoint.Y;
         return new Point(centerPoint.X + y, centerPoint.Y - x);
+    }
+
+    public static Point RotateCounterclockwise(this Point point)
+    {
+        return point.RotateCounterclockwise(new Point(0, 0));
     }
 
     public static Point RotateCounterclockwise(this Point point, Point centerPoint)
