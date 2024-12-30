@@ -380,13 +380,19 @@ public class QuickMatrix
             }
         }
     }
-
     public void DebugPrint()
     {
+        Debug.WriteLine(GetDebugPrintString());
+    }
+
+    public List<string> GetDebugPrintString()
+    {
+        List<string> result = [];
         foreach (List<CellInfo> row in Rows)
         {
-            Debug.WriteLine(row.Aggregate("", (acc, cell) => acc + cell.StringVal));
+            result.Add(row.Aggregate("", (acc, cell) => acc + cell.StringVal));
         }
+        return result;
     }
 
     public List<CellInfo> GetTouchingCellsWithValue(Point position, TouchingMode touchingMode)
