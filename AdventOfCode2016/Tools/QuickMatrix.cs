@@ -380,9 +380,10 @@ public class QuickMatrix
             }
         }
     }
+
     public void DebugPrint()
     {
-        Debug.WriteLine(GetDebugPrintString());
+        Debug.WriteLine(string.Join("\r\n", GetDebugPrintString()));
     }
 
     public List<string> GetDebugPrintString()

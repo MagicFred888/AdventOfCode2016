@@ -54,15 +54,14 @@ namespace AdventOfCode2016.Tools
                     IsStart = cell.Position == startPosition,
                     IsEnd = cell.Position == endPosition
                 };
-                if (_distanceToStart[cell.Position.X, cell.Position.Y] + _distanceToEnd[cell.Position.X, cell.Position.Y] < bestDistance)
+                if (_distanceToStart[cell.Position.X, cell.Position.Y] >= 0 && _distanceToEnd[cell.Position.X, cell.Position.Y] >= 0)
                 {
-                    bestDistance = _distanceToStart[cell.Position.X, cell.Position.Y] + _distanceToEnd[cell.Position.X, cell.Position.Y];
+                    bestDistance = Math.Min(_distanceToStart[cell.Position.X, cell.Position.Y] + _distanceToEnd[cell.Position.X, cell.Position.Y], bestDistance);
                 }
             }
             foreach (var cell in maze.Cells)
             {
                 MazeCellInfos info = (MazeCellInfos)cell.ObjectVal!;
-
                 info.BestDistance = bestDistance;
                 info.PartOfBest = info.DistanceToStart + info.DistanceToEnd == bestDistance;
             }
