@@ -5,7 +5,30 @@ namespace AdventOfCode2016.Tools;
 
 public static class Tools
 {
-    public static List<List<long>> GenerateCombinations(List<long> numbers, long targetValue)
+    public static List<List<int>> GenerateCombinations(int totalItems, int itemsNeeded)
+    {
+        var result = new List<List<int>>();
+        GenerateCombinationsRecursive(0, totalItems, itemsNeeded, [], result);
+        return result;
+    }
+
+    private static void GenerateCombinationsRecursive(int start, int totalItems, int itemsNeeded, List<int> currentCombination, List<List<int>> result)
+    {
+        if (currentCombination.Count == itemsNeeded)
+        {
+            result.Add(new List<int>(currentCombination));
+            return;
+        }
+
+        for (int i = start; i < totalItems; i++)
+        {
+            currentCombination.Add(i);
+            GenerateCombinationsRecursive(i + 1, totalItems, itemsNeeded, currentCombination, result);
+            currentCombination.RemoveAt(currentCombination.Count - 1);
+        }
+    }
+
+    public static List<List<long>> GenerateCombinationsMatchingTotal(List<long> numbers, long targetValue)
     {
         List<List<long>> result = [];
         GenerateCombinations(numbers, targetValue, [], result, 0);
@@ -30,31 +53,6 @@ public static class Tools
                 GenerateCombinations(numbers, targetValue - numbers[i], currentCombination, results, i + 1); // Move to the next index
                 currentCombination.RemoveAt(currentCombination.Count - 1); // Backtrack
             }
-        }
-    }
-
-    public static List<long[]> GenerateCombinations(long totalElements, long numberOfItems)
-    {
-        var combinations = new List<long[]>();
-        long[] combination = new long[numberOfItems];
-        GenerateRecursive(combinations, combination, totalElements, numberOfItems, 0);
-        return combinations;
-    }
-
-    private static void GenerateRecursive(List<long[]> combinations, long[] combination, long remaining, long numIngredients, long index)
-    {
-        if (index == numIngredients - 1)
-        {
-            // Assign the remaining value to the last ingredient
-            combination[index] = remaining;
-            combinations.Add((long[])combination.Clone());
-            return;
-        }
-
-        for (long i = 0; i <= remaining; i++)
-        {
-            combination[index] = i;
-            GenerateRecursive(combinations, combination, remaining - i, numIngredients, index + 1);
         }
     }
 
