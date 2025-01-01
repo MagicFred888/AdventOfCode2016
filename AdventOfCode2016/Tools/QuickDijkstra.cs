@@ -59,5 +59,40 @@
             }
             return distances[endNode];
         }
+
+        public long GetShortestPathVisitingAllNodes(string start, bool returnToStart)
+        {
+            Node startNode = _allNodes[start];
+            HashSet<Node> visited =
+            [
+                startNode
+            ];
+            return FindShortestPath(startNode, visited, 0, startNode, returnToStart);
+        }
+
+        private long FindShortestPath(Node currentNode, HashSet<Node> visited, long currentDistance, Node startNode, bool returnToStart)
+        {
+            if (visited.Count == _allNodes.Count)
+            {
+                // Return to the start node to complete the cycle if required
+                return returnToStart ? currentDistance + currentNode.Links[startNode] : currentDistance;
+            }
+
+            long shortestPath = long.MaxValue;
+            foreach (var link in currentNode.Links)
+            {
+                if (!visited.Contains(link.Key))
+                {
+                    visited.Add(link.Key);
+                    long distance = FindShortestPath(link.Key, visited, currentDistance + link.Value, startNode, returnToStart);
+                    if (distance < shortestPath)
+                    {
+                        shortestPath = distance;
+                    }
+                    visited.Remove(link.Key);
+                }
+            }
+            return shortestPath;
+        }
     }
 }
