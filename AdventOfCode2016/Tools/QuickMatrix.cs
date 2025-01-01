@@ -57,6 +57,17 @@ public class QuickMatrix
         {
             return StringVal == null ? "NULL" : StringVal.ToString();
         }
+
+        public CellInfo Clone()
+        {
+            // return a deep copy
+            return new CellInfo(Position.X, Position.Y, StringVal)
+            {
+                LongVal = LongVal,
+                BoolVal = BoolVal,
+                ObjectVal = ObjectVal
+            };
+        }
     }
 
     public int ColCount { get; private set; }
@@ -171,6 +182,20 @@ public class QuickMatrix
 
         // Compute other properties
         ComputeOtherProperties();
+    }
+
+    public QuickMatrix Clone()
+    {
+        // Make a deep copy of everything
+        QuickMatrix clone = new(ColCount, RowCount);
+        for (int y = 0; y < RowCount; y++)
+        {
+            for (int x = 0; x < ColCount; x++)
+            {
+                clone._data[x, y] = _data[x, y].Clone();
+            }
+        }
+        return clone;
     }
 
     public void SetAllCells(object value)
